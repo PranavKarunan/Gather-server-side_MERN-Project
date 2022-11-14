@@ -13,7 +13,7 @@ exports.getAllPost = async (req, res) => {
   try {
     const posts = await Post.find()
       .populate("user", "first_name last_name picture username gender")
-      .sort({ createdAt: "desc" });
+      .sort({ createdAt: -1 });
     res.json(posts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -39,6 +39,15 @@ exports.comment = async (req, res) => {
       }
     ).populate("comments.commentBy", "picture,first_name,last_name,username");
     res.json(newComments.comments);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deletePost = async (req, res) => {
+  try {
+    await Post.findByIdAndDelete(req.params.id);
+    return res.json({ status: "ok" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

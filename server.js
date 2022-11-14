@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 const { readdirSync } = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -27,5 +27,5 @@ mongoose
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}..`);
+  `server is running on port ${PORT}..`;
 });
