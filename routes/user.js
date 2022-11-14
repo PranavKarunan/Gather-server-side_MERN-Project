@@ -14,6 +14,7 @@ const {
   getAllUsers,
   getUser,
   updateCover,
+  addFriend
 } = require("../controllers/user");
 const { authUser } = require("../middlewares/auth");
 
@@ -32,5 +33,7 @@ router.get("/getUser/:userId", getUser);
 router.put("/updateProfilePicture", authUser, updateProfilePicture);
 router.get("/users", getAllUsers);
 router.put("/updateCover", authUser, updateCover);
+router.put("/addFriend", authUser, addFriend);
+
 
 module.exports = router;

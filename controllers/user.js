@@ -288,6 +288,15 @@ exports.getUser = async (req, res) => {
   }
 };
 
+
+exports.addFriend = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.updateCover = async (req, res) => {
   try {
     const { url } = req.body;
