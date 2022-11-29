@@ -9,6 +9,7 @@ const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../helpers/tokens");
+const mongoose = require("mongoose");
 const { sendVerificationEmail, sendResetCode } = require("../helpers/mailer");
 const generateCode = require("../helpers/generateCode");
 exports.register = async (req, res) => {
@@ -524,6 +525,25 @@ exports.unfollow = async (req, res) => {
         .status(400)
         .json({ message: "You can't unfollow request to yourself" });
     }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getFriendsPageInfos = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id)
+      .select("friends requests")
+      .populate("friends", "first_name last_name username picture")
+      .populate("requests", "first_name last_name username picture");
+    const sendRequests = await User.find({
+      requests: mongoose.Types.ObjectId(req.user.id),
+    }).select("first_name last_name username picture");
+    res.json({
+      friends: user.friends,
+      requests: user.requests,
+      sendRequests,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
